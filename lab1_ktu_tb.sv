@@ -6,7 +6,7 @@
 // “does the HSOSC work?” 
 // and “does the assign 1 liner work?”.
 
-`timescale 1 ns/1 ns
+`timescale 1 ns/1 ps //what does this scale mean?
 
 module lab1_ktu_tb();
 	logic clk, reset; // system clock, active high reset
@@ -22,29 +22,19 @@ module lab1_ktu_tb();
         .seg(seg)
     );
 	
-		// Instantiate the counter DUT for testing
-    counter counter(
-        .int_osc(clk),
-        .reset(reset),
-		.ledLast(led[2])
-    );
+	// generates the clock to oscillate
+	always 
+		begin
+			clk = 1; #5; clk = 0; #5;
+		end
+		
 	// ============ TESTING CONNECTIONS TO SUBMODULES ==================== 
 	
-        s[3] = 1'b1; s[2] = 1'b1;                // setup inputs TODO:change this guy
-        #10;                        // wait required time
-        assert (led[1] == 1'b1)       // check outputs
-            $display("PASSED! The led controller behaves as desired at time: %0t.", $time);
-        else 
-            $error("FAILED! The led controller behaves incorrectly at time: %0t.", $time); 
+
 	
 	// ============ TESTING FUNCTIONALITY OF HSOSC =======================
 	
-        s[3] = 1'b1; s[2] = 1'b1;                // setup inputs TODO:change this guy
-        #10;                        // wait required time
-        assert (led[1] == 1'b1)       // check outputs
-            $display("PASSED! The led controller behaves as desired at time: %0t.", $time);
-        else 
-            $error("FAILED! The led controller behaves incorrectly at time: %0t.", $time); 
+    // ============ TESTING FUNCTIONALITY OF SEVEN SEGMENT =======================
 			
 	//  ========== TESTING TOP LEVEL LOGIC ==========
 	// namely,
